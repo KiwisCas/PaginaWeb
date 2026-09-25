@@ -1,5 +1,5 @@
 // --- RUTAS DE LOS VIDEOS EN LA CARPETA ASSETS ---
-const files = {
+const assetPaths = {
   s1:   "assets/Escena 1.mov",
   s2_0: "assets/Escena 2.0.mov",
   s2_1: "assets/Escena 2.1.mov",
@@ -19,14 +19,20 @@ const files = {
   f3:   "assets/Final 3.mov"
 };
 
+// Objeto para guardar las URLs en caché (Blobs)
+const loadedFiles = {};
+
 const video = document.getElementById('video');
 const overlay = document.getElementById('overlay');
 const sceneLabel = document.getElementById('sceneLabel');
 const startScreen = document.getElementById('start-screen');
 const gameContainer = document.getElementById('game-container');
+const loadingBox = document.getElementById('loading-box');
+const loadingText = document.getElementById('loading-text');
+const loadBar = document.getElementById('load-bar');
 const initBtn = document.getElementById('initBtn');
 
-// Definición de decisiones y flujo
+// Estructura de decisiones
 const decisions = {
   s2_0: {
     options: [
@@ -61,6 +67,35 @@ let score = 0;
 let choiceMade = false;
 const WINDOW_SECONDS = 7;
 
+// --- FUNCIÓN DE PRECARGA DE VIDEOS ---
+async function preloadVideos() {
+  const keys = Object.keys(assetPaths);
+  const total = keys.length;
+  let completed = 0;
+
+  for (const key of keys) {
+    try {
+      const response = await fetch(assetPaths[key]);
+      if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+      const blob = await response.blob();
+      loadedFiles[key] = URL.createObjectURL(blob);
+    } catch (err) {
+      console.warn(`No se pudo precargar en caché ${key}, se usará la ruta directa:`, err);
+      // Respaldo en caso de error en el fetch
+      loadedFiles[key] = assetPaths[key];
+    }
+
+    completed++;
+    const percent = Math.round((completed / total) * 100);
+    loadBar.style.width = `${percent}%`;
+    loadingText.textContent = `CARGANDO RECURSOS... ${percent}%`;
+  }
+
+  // Finalizar carga y mostrar botón
+  loadingBox.style.display = 'none';
+  initBtn.style.display = 'block';
+}
+
 function playScene(id) {
   sceneLabel.textContent = 'ESCENA: ' + id;
   overlay.style.display = 'none';
@@ -70,10 +105,9 @@ function playScene(id) {
   video.ontimeupdate = null;
   video.onended = null;
   
-  video.src = files[id];
+  video.src = loadedFiles[id] || assetPaths[id];
   video.load();
 
-  // Se inicia la reproducción asegurada
   const playPromise = video.play();
   if (playPromise !== undefined) {
     playPromise.catch(err => {
@@ -167,7 +201,7 @@ function finish() {
 
   sceneLabel.textContent = '';
   overlay.style.display = 'none';
-  video.src = files[finalId];
+  video.src = loadedFiles[finalId] || assetPaths[finalId];
   video.load();
   video.play();
   video.onended = () => {
@@ -176,10 +210,15 @@ function finish() {
   };
 }
 
-// Escuchador de clic en el botón de inicio
+// Eventos
 initBtn.addEventListener('click', () => {
   startScreen.style.display = 'none';
   gameContainer.style.display = 'block';
   score = 0;
   playScene('s1');
+});
+
+// Iniciar precarga al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+  preloadVideos();
 });

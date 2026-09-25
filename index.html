@@ -12,12 +12,21 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE INICIO (Solo muestra el botón) -->
+  <!-- PANTALLA DE INICIO / CARGA -->
   <div id="start-screen">
-    <button class="primary pixel-text" id="initBtn">Te necesitamos!! Haz clic acá</button>
+    <!-- Estado de Precarga -->
+    <div id="loading-box">
+      <p id="loading-text" class="pixel-text">CARGANDO RECURSOS... 0%</p>
+      <div class="load-bar-container">
+        <div id="load-bar"></div>
+      </div>
+    </div>
+
+    <!-- Botón de Inicio (se activa al completar la carga) -->
+    <button class="primary pixel-text" id="initBtn" style="display: none;">Te necesitamos!! Haz clic acá</button>
   </div>
 
-  <!-- CONTENEDOR PRINCIPAL DEL JUEGO (Oculto al inicio) -->
+  <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
   <div id="game-container">
     <h1>Atlas Corp Recruitment</h1>
     <div id="player">
