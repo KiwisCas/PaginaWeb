@@ -4,13 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Atlas Corp Recruitment</title>
+  <!-- Fuente Pixelada (Press Start 2P) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Atlas Corp Recruitment</h1>
 
+  <!-- Pantalla de inicio -->
+  <div id="start-screen">
+    <button class="primary pixel-text" id="initBtn">Te necesitamos!! Haz clic acá</button>
+  </div>
+
   <div id="player">
-    <div id="hud"><span id="sceneLabel">—</span></div>
+    <div id="hud"><span id="sceneLabel" class="pixel-text">—</span></div>
     <div style="position:relative">
       <video id="video" playsinline></video>
       <div id="overlay"></div>
@@ -18,7 +27,7 @@
   </div>
 
   <div id="end">
-    <button class="primary" onclick="location.reload()">Reiniciar</button>
+    <button class="primary pixel-text" onclick="location.reload()">Reiniciar</button>
   </div>
 
   <script src="script.js"></script>

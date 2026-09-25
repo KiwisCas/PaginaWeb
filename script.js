@@ -22,6 +22,9 @@ const files = {
 const video = document.getElementById('video');
 const overlay = document.getElementById('overlay');
 const sceneLabel = document.getElementById('sceneLabel');
+const startScreen = document.getElementById('start-screen');
+const player = document.getElementById('player');
+const initBtn = document.getElementById('initBtn');
 
 // Definición de decisiones y ramificaciones
 const decisions = {
@@ -59,7 +62,7 @@ let choiceMade = false;
 const WINDOW_SECONDS = 7;
 
 function playScene(id) {
-  sceneLabel.textContent = 'Escena: ' + id;
+  sceneLabel.textContent = 'ESCENA: ' + id;
   overlay.style.display = 'none';
   overlay.classList.remove('fade-out');
   overlay.innerHTML = '';
@@ -67,8 +70,9 @@ function playScene(id) {
   video.ontimeupdate = null;
   video.onended = null;
   video.src = files[id];
+  
   video.play().catch(err => {
-    console.log("Esperando interacción del usuario para reproducir audio/video:", err);
+    console.error("Error al intentar reproducir el video:", err);
   });
 
   if (decisions[id]) {
@@ -160,13 +164,14 @@ function finish() {
   video.src = files[finalId];
   video.play();
   video.onended = () => {
-    document.getElementById('player').style.display = 'none';
+    player.style.display = 'none';
     document.getElementById('end').style.display = 'block';
   };
 }
 
-// Iniciar automáticamente la primera escena
-document.addEventListener('DOMContentLoaded', () => {
+initBtn.addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  player.style.display = 'block';
   score = 0;
   playScene('s1');
 });
