@@ -11,21 +11,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Atlas Corp Recruitment</h1>
 
-  <!-- Pantalla de inicio -->
+  <!-- PANTALLA DE INICIO (Solo muestra el botón) -->
   <div id="start-screen">
     <button class="primary pixel-text" id="initBtn">Te necesitamos!! Haz clic acá</button>
   </div>
 
-  <div id="player">
-    <div id="hud"><span id="sceneLabel" class="pixel-text">—</span></div>
-    <div style="position:relative">
-      <video id="video" playsinline></video>
-      <div id="overlay"></div>
+  <!-- CONTENEDOR PRINCIPAL DEL JUEGO (Oculto al inicio) -->
+  <div id="game-container">
+    <h1>Atlas Corp Recruitment</h1>
+    <div id="player">
+      <div id="hud"><span id="sceneLabel" class="pixel-text">—</span></div>
+      <div style="position:relative">
+        <video id="video" playsinline></video>
+        <div id="overlay"></div>
+      </div>
     </div>
   </div>
 
+  <!-- PANTALLA FINAL -->
   <div id="end">
     <button class="primary pixel-text" onclick="location.reload()">Reiniciar</button>
   </div>

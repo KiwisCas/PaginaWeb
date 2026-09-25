@@ -23,10 +23,10 @@ const video = document.getElementById('video');
 const overlay = document.getElementById('overlay');
 const sceneLabel = document.getElementById('sceneLabel');
 const startScreen = document.getElementById('start-screen');
-const player = document.getElementById('player');
+const gameContainer = document.getElementById('game-container');
 const initBtn = document.getElementById('initBtn');
 
-// Definición de decisiones y ramificaciones
+// Definición de decisiones y flujo
 const decisions = {
   s2_0: {
     options: [
@@ -69,11 +69,17 @@ function playScene(id) {
   choiceMade = false;
   video.ontimeupdate = null;
   video.onended = null;
-  video.src = files[id];
   
-  video.play().catch(err => {
-    console.error("Error al intentar reproducir el video:", err);
-  });
+  video.src = files[id];
+  video.load();
+
+  // Se inicia la reproducción asegurada
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(err => {
+      console.error("Error al reproducir el video (" + id + "):", err);
+    });
+  }
 
   if (decisions[id]) {
     let shown = false;
@@ -162,16 +168,18 @@ function finish() {
   sceneLabel.textContent = '';
   overlay.style.display = 'none';
   video.src = files[finalId];
+  video.load();
   video.play();
   video.onended = () => {
-    player.style.display = 'none';
+    gameContainer.style.display = 'none';
     document.getElementById('end').style.display = 'block';
   };
 }
 
+// Escuchador de clic en el botón de inicio
 initBtn.addEventListener('click', () => {
   startScreen.style.display = 'none';
-  player.style.display = 'block';
+  gameContainer.style.display = 'block';
   score = 0;
   playScene('s1');
 });
