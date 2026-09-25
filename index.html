@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Video Interactivo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Configurador de video interactivo</h1>
+  <p id="status">Comprobando archivos...</p>
+
+  <div class="setup" id="setup">
+    <div class="group">
+      <h2>Escenas lineales</h2>
+      <div class="row"><span>Escena 1</span><input type="file" accept="video/*" data-id="s1"></div>
+      <div class="row"><span>Escena 5</span><input type="file" accept="video/*" data-id="s5"></div>
+    </div>
+    <div class="group">
+      <h2>Escena 2 (decisión)</h2>
+      <div class="row"><span>2.0 (pregunta)</span><input type="file" accept="video/*" data-id="s2_0"></div>
+      <div class="row"><span>2.1 — "¿Acaso murieron?"</span><input type="file" accept="video/*" data-id="s2_1"></div>
+      <div class="row"><span>2.2 — "¿Simplemente desaparecieron?"</span><input type="file" accept="video/*" data-id="s2_2"></div>
+      <div class="row"><span>2.3 — "Qué interesante."</span><input type="file" accept="video/*" data-id="s2_3"></div>
+    </div>
+    <div class="group">
+      <h2>Escena 3 (decisión)</h2>
+      <div class="row"><span>3.0 (pregunta)</span><input type="file" accept="video/*" data-id="s3_0"></div>
+      <div class="row"><span>3.1 — "¿Qué sonido?"</span><input type="file" accept="video/*" data-id="s3_1"></div>
+      <div class="row"><span>3.2 — "¿Ese zumbido?"</span><input type="file" accept="video/*" data-id="s3_2"></div>
+      <div class="row"><span>3.3 — "No escucho nada"</span><input type="file" accept="video/*" data-id="s3_3"></div>
+    </div>
+    <div class="group">
+      <h2>Escena 4 (decisión)</h2>
+      <div class="row"><span>4.0 (pregunta)</span><input type="file" accept="video/*" data-id="s4_0"></div>
+      <div class="row"><span>4.1 — "¿Cómo puede llegar...?"</span><input type="file" accept="video/*" data-id="s4_1"></div>
+      <div class="row"><span>4.2 — "¿Alguien envía la señal?"</span><input type="file" accept="video/*" data-id="s4_2"></div>
+      <div class="row"><span>4.3 — "¿Hay algo ahí afuera?"</span><input type="file" accept="video/*" data-id="s4_3"></div>
+    </div>
+    <div class="group">
+      <h2>Finales</h2>
+      <div class="row"><span>Final 1</span><input type="file" accept="video/*" data-id="f1"></div>
+      <div class="row"><span>Final 2</span><input type="file" accept="video/*" data-id="f2"></div>
+      <div class="row"><span>Final 3</span><input type="file" accept="video/*" data-id="f3"></div>
+    </div>
+  </div>
+
+  <button class="primary" id="startBtn" disabled>Comprobando videos...</button>
+  <button class="secondary" id="clearBtn">Borrar reemplazos guardados en este navegador</button>
+
+  <div id="player">
+    <div id="hud"><span id="sceneLabel">—</span></div>
+    <div style="position:relative">
+      <video id="video" playsinline></video>
+      <div id="overlay"></div>
+    </div>
+  </div>
+
+  <div id="end">
+    <button class="primary" onclick="location.reload()">Reiniciar</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
