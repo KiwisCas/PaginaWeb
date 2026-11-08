@@ -4,43 +4,138 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Atlas Corp Recruitment</title>
-  <!-- Fuente Pixelada (Press Start 2P) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <!-- Efecto CRT (scanlines + viñeta) -->
+  <div id="glass"></div>
+
+  <!-- LOGO DISSONANCE -->
+  <a id="studio-logo" aria-label="Dissonance Studio">
+    <svg viewBox="0 0 722 358" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g transform="matrix(1,0,0,1,-139.154053,-321.452485)">
+        <g transform="matrix(2.215877,0,0,2.215877,-163.672191,-594.829887)">
+          <text x="133.423" y="548.118" style="font-family:'Michroma',sans-serif;font-size:33.847px;fill:white;">DISSONANCE</text>
+        </g>
+        <g transform="matrix(2.215877,0,0,2.215877,122.995696,-535.592381)">
+          <text x="133.423" y="548.118" style="font-family:'MS Gothic','Courier New',monospace;font-size:24.445px;fill:white;">STUDIO</text>
+        </g>
+        <g transform="matrix(1,0,0,1,0,62.311311)">
+          <path d="M368.442,363.852C364.232,363.793 359.886,363.621 355.399,363.329C359.885,363.404 364.231,363.581 368.442,363.852ZM368.442,363.852C482.14,365.448 496.221,284.909 496.221,284.909L389.756,284.909L353.682,259.141L567.855,260.146C596.747,258.771 659.106,303.421 652.158,362.642C650.901,373.357 645.258,452.326 564.275,464.518L354.54,465.713L388.468,441.233L495.877,441.663C495.877,441.663 477.755,370.901 368.442,363.852ZM500,268.602L500,455.847C500,455.847 507.739,363.026 635.204,362.053C507.396,353.864 500,268.602 500,268.602Z" fill="white"/>
+        </g>
+      </g>
+    </svg>
+  </a>
+
   <!-- PANTALLA DE INICIO / CARGA -->
   <div id="start-screen">
-    <!-- Estado de Precarga -->
-    <div id="loading-box">
-      <p id="loading-text" class="pixel-text">CARGANDO RECURSOS... 0%</p>
-      <div class="load-bar-container">
-        <div id="load-bar"></div>
+    <div class="win" id="start-win">
+      <div class="win-title">
+        <span class="t">ATLAS-NET — Inicio de sesión</span>
+      </div>
+      <div class="win-body">
+        <div class="brand">
+          <svg class="seal" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#c81e1e" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="11" fill="none" stroke="#8f1410" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="3.5" fill="#c81e1e"/>
+          </svg>
+          <h1 class="wordmark">ATLAS</h1>
+          <p class="expand">TERMINAL PÚBLICO DE CONVOCATORIA · MISIÓN HELIOS-1</p>
+        </div>
+
+        <div id="loading-box">
+          <p id="loading-text" class="sys-text">CARGANDO RECURSOS... 0%</p>
+          <div class="pbar"><i id="load-bar"></i></div>
+        </div>
+
+        <button class="btn primary big" id="initBtn" style="display: none;">Te necesitamos!! Haz clic acá</button>
       </div>
     </div>
+  </div>
 
-    <!-- Botón de Inicio (se activa al completar la carga) -->
-    <button class="primary pixel-text" id="initBtn" style="display: none;">Te necesitamos!! Haz clic acá</button>
+  <!-- ADVERTENCIA -->
+  <div id="warn">
+    <div class="win" id="warn-win">
+      <div class="win-title"><span class="t">ATLAS-NET — Advertencia</span></div>
+      <div class="win-body">
+        <div class="warn-row">
+          <svg class="warn-ico" viewBox="0 0 32 32" aria-hidden="true" shape-rendering="crispEdges">
+            <path d="M16 2 L31 29 H1 Z" fill="#c81e1e" stroke="#000" stroke-width="1.5"/>
+            <rect x="14.5" y="11" width="3" height="10" fill="#fff"/>
+            <rect x="14.5" y="23" width="3" height="3" fill="#fff"/>
+          </svg>
+          <div>
+            <p class="warn-head">ADVERTENCIA</p>
+            <p>Esta experiencia hace uso de sonidos que pueden resultar molestos para ciertas personas.</p>
+            <p>Si decides continuar y en algún momento te sientes incómodo, no dudes en pausar la experiencia y tomarte un descanso.</p>
+          </div>
+        </div>
+        <div class="warn-actions">
+          <button class="btn primary" id="warnContinue" type="button">Continuar</button>
+          <button class="btn" id="warnSkip" type="button">Llevar al final</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
   <div id="game-container">
-    <h1>Atlas Corp Recruitment</h1>
-    <div id="player">
-      <div id="hud"><span id="sceneLabel" class="pixel-text">—</span></div>
-      <div style="position:relative">
-        <video id="video" playsinline></video>
-        <div id="overlay"></div>
+    <div class="win" id="player">
+      <div class="win-title">
+        <span class="t">Atlas Corp Recruitment — Transmisión</span>
+      </div>
+      <div class="win-body">
+        <div id="hud">
+          <span id="sceneLabel" class="sys-text">—</span>
+          <button id="pauseBtn" class="btn hud-btn" type="button" aria-label="Pausar"><span class="ico-pause"></span></button>
+          <div class="vol">
+            <button id="muteBtn" class="btn hud-btn" type="button" aria-label="Silenciar">
+              <svg class="spk" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z" fill="currentColor"/><path class="w1" d="M11 6v4" stroke="currentColor" stroke-width="1.5"/><path class="w2" d="M13.5 4v8" stroke="currentColor" stroke-width="1.5"/><path class="x" d="M11 5l4 6M15 5l-4 6" stroke="#c81e1e" stroke-width="1.5"/></svg>
+            </button>
+            <input id="volume" type="range" min="0" max="100" value="80" aria-label="Volumen">
+            <span id="volLabel" class="vol-label">80</span>
+          </div>
+          <span class="rec">● REC</span>
+        </div>
+        <div class="screen">
+          <video id="video" playsinline></video>
+          <div id="static">
+            <canvas id="static-canvas" width="320" height="180"></canvas>
+            <div class="paused-badge"><i></i><i></i><span>PAUSA</span></div>
+          </div>
+          <div id="overlay"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- PANTALLA FINAL -->
   <div id="end">
-    <button class="primary pixel-text" onclick="location.reload()">Reiniciar</button>
+    <div class="win" id="end-win">
+      <div class="win-title">
+        <span class="t">ATLAS-NET — señal_desconocida.exe</span>
+      </div>
+      <div class="win-body">
+        <p class="sys-text end-status">ERR 0x0F3 · TRANSMISIÓN INTERRUMPIDA</p>
+        <div id="glitch" class="glitch" data-text="">&nbsp;</div>
+        <button class="btn primary big" id="atlasBtn" type="button">Conoce Atlas Corp.</button>
+        <form id="restart-form" class="term-line" autocomplete="off">
+          <label for="restart-input">C:\ATLAS&gt;</label>
+          <input id="restart-input" type="text" spellcheck="false" placeholder="escribe REINICIAR">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA DE TAREAS -->
+  <div id="taskbar">
+    <button class="task" id="task-player" type="button" tabindex="-1">▶ Transmisión</button>
+    <span class="clock" id="clock">--:--</span>
   </div>
 
   <script src="script.js"></script>
