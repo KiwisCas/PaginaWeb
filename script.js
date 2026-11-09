@@ -205,14 +205,14 @@ function showChoices(id) {
 function finish() {
   let finalId;
   if (score <= 3) { finalId = 'f1'; }
-  else if (score <= 6) { finalId = 'f2'; }
+  else if (score <= 4) { finalId = 'f2'; }
   else { finalId = 'f3'; }
 
   sceneLabel.textContent = '';
   overlay.style.display = 'none';
   video.src = loadedFiles[finalId] || assetPaths[finalId];
   video.load();
-  video.play();
+  video.play().catch(err => console.warn("No se pudo reproducir el final:", err));
   video.onended = closeAndShowEnd;
 }
 
@@ -382,23 +382,7 @@ document.getElementById('atlasBtn').addEventListener('click', () => {
   window.open('https://pascual890.github.io/PaginaTaller6/', '_blank', 'noopener');
 });
 
-// Reiniciar escribiendo REINICIAR
-document.getElementById('restart-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const form = e.currentTarget;
-  const input = document.getElementById('restart-input');
-  if (input.value.trim().toUpperCase() === 'REINICIAR') {
-    location.reload();
-  } else {
-    form.classList.add('bad');
-    input.value = '';
-    input.placeholder = 'COMANDO NO RECONOCIDO';
-    setTimeout(() => { form.classList.remove('bad'); input.placeholder = 'escribe REINICIAR'; }, 1400);
-  }
-});
-
 function startGlitch() {
-  setTimeout(() => document.getElementById('restart-input').focus({ preventScroll: true }), 600);
   const el = document.getElementById('glitch');
   let i = 0, frame = 0;
   const set = txt => { el.textContent = txt; el.dataset.text = txt; };
